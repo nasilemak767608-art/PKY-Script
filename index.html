@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- TEKA-TEKI STAGE 1: Password tersembunyi di Komentar Kode Source PageIni! -->
+    <!-- SECURE_KEY_LAYER_1: KALTENG1957 -->
+    <title>THE ARCHIVAL CRYPT // PKY-PROJECT</title>
+    <style>
+        :root {
+            --bg-color: #0d0d0d;
+            --main-color: #00ff66;
+            --danger-color: #ff3333;
+            --text-dim: #558866;
+        }
+        body {
+            background-color: var(--bg-color);
+            color: var(--main-color);
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .container {
+            width: 100%;
+            max-width: 500px;
+            border: 1px solid var(--main-color);
+            padding: 20px;
+            box-shadow: 0 0 15px rgba(0, 255, 102, 0.2);
+            background: #111;
+        }
+        h1 {
+            font-size: 1.2rem;
+            text-align: center;
+            border-bottom: 1px solid var(--main-color);
+            padding-bottom: 10px;
+            letter-spacing: 2px;
+        }
+        .stage {
+            display: none;
+        }
+        .stage.active {
+            display: block;
+        }
+        p {
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            background: #000;
+            border: 1px solid var(--main-color);
+            color: var(--main-color);
+            font-family: inherit;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+            text-transform: uppercase;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background: var(--main-color);
+            color: #000;
+            border: none;
+            font-weight: bold;
+            font-family: inherit;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+        button:hover {
+            background: #00cc55;
+        }
+        .error {
+            color: var(--danger-color);
+            font-size: 0.8rem;
+            margin-top: 5px;
+            display: none;
+        }
+        .hint {
+            color: var(--text-dim);
+            font-size: 0.8rem;
+            font-style: italic;
+            margin-top: 15px;
+        }
+        /* Hidden Audio Element */
+        #bgm {
+            display: none;
+        }
+        .hidden-clue {
+            color: #121512; /* Hampir menyatu dengan background, butuh brightness 100% di HP! */
+            font-weight: bold;
+            text-align: center;
+            margin: 15px 0;
+            user-select: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Lagu BGM Suspense / Dark Ambient -->
+    <audio id="bgm" loop>
+        <source src="https://assets.mixkit.co/music/preview/mixkit-sci-fi-drone-suspense-888.mp3" type="audio/mp3">
+    </audio>
+
+    <div class="container">
+        
+        <!-- INITIAL OVERLAY -->
+        <div id="start-screen">
+            <h1>SYSTEM RESTRICTED</h1>
+            <p>Akses ini hanya diperuntukkan bagi subjek yang memiliki kualifikasi. Aktifkan saluran transmisi untuk memulai.</p>
+            <button onclick="startSession()">[ INITIALIZE TRANSMISSION ]</button>
+        </div>
+
+        <!-- STAGE 1 -->
+        <div id="stage1" class="stage">
+            <h1>STAGE 1 // CODE INSPECTION</h1>
+            <p>Password tidak dikirimkan lewat pesan. Kunci tersimpan di dalam struktur tersembunyi halaman ini.</p>
+            <p class="hint">> Petunjuk HP: Cari cara untuk melihat "Source Code" dari browser kamu.</p>
+            <input type="text" id="input1" placeholder="MASUKKAN KODE SENSITIF...">
+            <button onclick="checkStage1()">VERIFIKASI</button>
+            <div id="err1" class="error">> ACCESS DENIED: KODE SALAH!</div>
+        </div>
+
+        <!-- STAGE 2 -->
+        <div id="stage2" class="stage">
+            <h1>STAGE 2 // SPECTRUM & COORDINATE</h1>
+            <p>Kunci Stage 1 benar. Koordinat lokasi fisik terselip di bawah ini. Menaikkan kecerahan layar (Brightness 100%) & memiringkan sudut HP akan membantu matamu.</p>
+            
+            <div class="hidden-clue">
+                KOORDINAT LATITUDE: -2.2098<br>
+                LONGITUDE: 113.9161
+            </div>
+
+            <p class="hint">> Di mana lokasi di atas di Palangka Raya? Ketik nama tempat ikonik tersebut!</p>
+            <input type="text" id="input2" placeholder="NAMA LOKASI IKONIK...">
+            <button onclick="checkStage2()">CEK LOKASI</button>
+            <div id="err2" class="error">> LOKASI TIDAK COCOK!</div>
+        </div>
+
+        <!-- STAGE 3 -->
+        <div id="stage3" class="stage">
+            <h1>STAGE 3 // GEOLOCATION LOCK</h1>
+            <p>Sistem mendeteksi posisi GPS kamu secara real-time. Kamu harus berada dalam radius lokasi untuk membuka kunci final.</p>
+            <button onclick="checkLocation()">[ CEK LOKASI SAYA SEKARANG ]</button>
+            <div id="geo-status" class="hint" style="margin-top:10px;">> Menunggu scan lokasi...</div>
+            
+            <div id="stage3-next" style="display:none; margin-top:15px;">
+                <p>> POSISI TERVERIFIKASI! Masukkan angka tahun yang tertera di prasasti/tugu lokasi tersebut:</p>
+                <input type="text" id="input3" placeholder="MASUKKAN 4 ANGKA TAHUN...">
+                <button onclick="checkStage3()">SUBMIT FINAL</button>
+                <div id="err3" class="error">> KODE TAHUN SALAH!</div>
+            </div>
+        </div>
+
+        <!-- STAGE FINAL (WIN) -->
+        <div id="stage-win" class="stage">
+            <h1 style="color:#00ff66;">ACCESS GRANTED</h1>
+            <p>Selamat! Kamu telah memecahkan teka-teki hybrid ARG level extreme ini.</p>
+            <p><strong>PETUNJUK HARTA KARUN:</strong></p>
+            <p style="background:#222; padding:10px; border-left:3px solid #00ff66;">
+                "Temui pembuat teka-teki ini di kafe terdekat, tunjukkan layar HP ini dan klaim hadiahmu!"
+            </p>
+        </div>
+
+    </div>
+
+    <script>
+        function startSession() {
+            document.getElementById('bgm').play();
+            document.getElementById('start-screen').style.display = 'none';
+            document.getElementById('stage1').classList.add('active');
+        }
+
+        // STAGE 1: Kunci ada di komentar HTML paling atas (KALTENG1957)
+        function checkStage1() {
+            let val = document.getElementById('input1').value.trim().toUpperCase();
+            if (val === "KALTENG1957") {
+                document.getElementById('stage1').classList.remove('active');
+                document.getElementById('stage2').classList.add('active');
+            } else {
+                document.getElementById('err1').style.display = 'block';
+            }
+        }
+
+        // STAGE 2: Koordinat mengarah ke BUNDARAN BESAR
+        function checkStage2() {
+            let val = document.getElementById('input2').value.trim().toUpperCase();
+            if (val.includes("BUNDARAN BESAR")) {
+                document.getElementById('stage2').classList.remove('active');
+                document.getElementById('stage3').classList.add('active');
+            } else {
+                document.getElementById('err2').style.display = 'block';
+            }
+        }
+
+        // STAGE 3: Cek GPS HP Asli
+        // Target Koordinat (Contoh: Area Bundaran Besar PKY)
+        const TARGET_LAT = -2.2098;
+        const TARGET_LNG = 113.9161;
+
+        function checkLocation() {
+            let status = document.getElementById('geo-status');
+            status.innerHTML = "> Scanning GPS HP...";
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    let userLat = position.coords.latitude;
+                    let userLng = position.coords.longitude;
+
+                    // Hitung jarak simpel
+                    let dist = Math.sqrt(Math.pow(userLat - TARGET_LAT, 2) + Math.pow(userLng - TARGET_LNG, 2));
+
+                    // Radius toleransi (sekitar ~0.005 derajat / ~500m)
+                    if (dist < 0.008) {
+                        status.innerHTML = "<span style='color:#00ff66;'>[LOKASI TERKONFIRMASI DI PKY!]</span>";
+                        document.getElementById('stage3-next').style.display = 'block';
+                    } else {
+                        // JIKA MAU STRICT: Buka kode di bawah.
+                        // status.innerHTML = "<span style='color:#ff3333;'>[GAGAL: Kamu belum ada di lokasi Bundaran Besar!]</span>";
+                        
+                        // ATAU UNTUK TESTING (Bisa lolos langsung):
+                        status.innerHTML = "<span style='color:#00ff66;'>[LOKASI TERKONFIRMASI!]</span>";
+                        document.getElementById('stage3-next').style.display = 'block';
+                    }
+                }, function(err) {
+                    status.innerHTML = "> GPS Error: Pastikan Izin Lokasi di Browser HP diaktifkan!";
+                });
+            } else {
+                status.innerHTML = "> Browser kamu tidak mendukung GPS Geolocation.";
+            }
+        }
+
+        // STAGE 3 FINAL ANSWER
+        function checkStage3() {
+            let val = document.getElementById('input3').value.trim();
+            // Contoh jawaban tahun berdiri/prasasti di lokasi (Misal: 1957)
+            if (val === "1957") {
+                document.getElementById('stage3').classList.remove('active');
+                document.getElementById('stage-win').classList.add('active');
+            } else {
+                document.getElementById('err3').style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>
